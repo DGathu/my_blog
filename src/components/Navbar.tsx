@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import React from 'react'
+import Logo from './Icons/Logo';
 
 const Navbar = () => {
   return (
@@ -31,7 +32,9 @@ const Navbar = () => {
         </div>
       </div>
       <div className="navbar-center">
-        <Link href='/'>Icon</Link>
+        <Link href='/'>
+        <Logo />
+        </Link>
       </div>
       <div className="navbar-end">
         <div className='flex-none hidden md:block'> {/* Hide on small screens */}

@@ -8,9 +8,10 @@ import makeAnimated from 'react-select/animated';
 
 interface FormPostProps {
   submit: SubmitHandler<FormInputPost>;
+  isEditing: boolean;
 }
 
-const FormPost: FC<FormPostProps> = ({ submit }) => {
+const FormPost: FC<FormPostProps> = ({ submit, isEditing }) => {
   const { register, handleSubmit, setValue } = useForm<FormInputPost>();
   const [tags, setTags] = useState<{ value: string; label: string }[]>([]);
 
@@ -96,7 +97,9 @@ const FormPost: FC<FormPostProps> = ({ submit }) => {
         isSearchable
       />
 
-      <button type='submit' className='btn btn-primary w-full max-w-lg'>Create</button>
+      <button type='submit' className='btn btn-primary w-full max-w-lg'>
+        {isEditing ? 'Update' : 'Create'}
+      </button>
     </form>
   );
 };

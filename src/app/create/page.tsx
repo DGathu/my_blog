@@ -1,5 +1,6 @@
 'use client'
 
+import BackButton from '@/components/BackButton'
 import FormPost from '@/components/FormPost'
 import { FormInputPost } from '@/types'
 import React from 'react'
@@ -11,8 +12,9 @@ const CreatePage = () => {
     }
   return (
     <div>
+        <BackButton />
         <h1 className='text-2xl my-4 font-bold text text-center'>Add New Post</h1>
-        <FormPost submit={handleCreatePost}/>
+        <FormPost submit={handleCreatePost} isEditing={false} />
     </div>
   )
 }

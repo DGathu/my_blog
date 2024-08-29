@@ -1,0 +1,18 @@
+import { PenTool, Trash2 } from 'lucide-react'
+import Link from 'next/link'
+import React from 'react'
+
+const ButtonAction = () => {
+  return (
+    <div>
+        <Link href='/edit/1' className='btn mr-2'>
+        <PenTool />   Edit
+        </Link>
+        <button className='btn btn-error'>
+        <Trash2 />   Delete
+        </button>
+    </div>
+  )
+}
+
+export default ButtonAction
