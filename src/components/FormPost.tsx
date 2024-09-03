@@ -1,6 +1,9 @@
 'use client';
 
 import { FormInputPost } from '@/types';
+import { Tag } from '@prisma/client';
+import { useQuery } from '@tanstack/react-query';
+import axios from 'axios';
 import React, { FC, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import Select from 'react-select';
@@ -13,6 +16,17 @@ interface FormPostProps {
 
 const FormPost: FC<FormPostProps> = ({ submit, isEditing }) => {
   const { register, handleSubmit, setValue } = useForm<FormInputPost>();
+
+  // fetch list tags
+  const { data: dataTags, isLoading: isLoadingTags } = useQuery<Tag[]>({
+    queryKey: ['tags'],
+    queryFn: async () => {
+      const response = await axios.get('/api/tags');
+      return response.data;
+    },
+  });
+  console.log(dataTags);
+
   const [tags, setTags] = useState<{ value: string; label: string }[]>([]);
 
   const animatedComponents = makeAnimated();
@@ -21,7 +35,6 @@ const FormPost: FC<FormPostProps> = ({ submit, isEditing }) => {
     setTags(selectedOptions);
     setValue('tag', selectedOptions.map((option: any) => option.value));
   };
-
 
   const customStyles = {
     control: (provided: any) => ({
@@ -63,6 +76,11 @@ const FormPost: FC<FormPostProps> = ({ submit, isEditing }) => {
     }),
   };
 
+  const options = dataTags?.map(item => ({
+    value: item.id,
+    label: item.name,
+  }));
+
   return (
     <form onSubmit={handleSubmit(submit)} className='flex flex-col items-center justify-center gap-5 mt-10'>
       <input
@@ -78,14 +96,13 @@ const FormPost: FC<FormPostProps> = ({ submit, isEditing }) => {
         placeholder="Post Content"
       ></textarea>
 
-      <Select
+      {isLoadingTags ? (
+        <span className="loading loading-ring loading-md"></span>
+      ) : (
+        <Select
         {...register("tag", { required: true })}
         isMulti
         name="tags"
-        options={[
-          { value: 'Han Solo', label: 'Han Solo' },
-          { value: 'Greedo', label: 'Greedo' },
-        ]}
         className="basic-multi-select w-full max-w-lg"
         classNamePrefix="select"
         components={animatedComponents}
@@ -95,7 +112,9 @@ const FormPost: FC<FormPostProps> = ({ submit, isEditing }) => {
         placeholder="Select Tags"
         isClearable
         isSearchable
+        options={options}
       />
+      )}
 
       <button type='submit' className='btn btn-primary w-full max-w-lg'>
         {isEditing ? 'Update' : 'Create'}
