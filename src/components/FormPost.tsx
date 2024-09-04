@@ -33,7 +33,7 @@ const FormPost: FC<FormPostProps> = ({ submit, isEditing }) => {
 
   const handleTagsChange = (selectedOptions: any) => {
     setTags(selectedOptions);
-    setValue('tag', selectedOptions.map((option: any) => option.value));
+    setValue('tagId', selectedOptions.map((option: any) => option.value));
   };
 
   const customStyles = {
@@ -100,7 +100,7 @@ const FormPost: FC<FormPostProps> = ({ submit, isEditing }) => {
         <span className="loading loading-ring loading-md"></span>
       ) : (
         <Select
-        {...register("tag", { required: true })}
+        {...register("tagId", { required: true })}
         isMulti
         name="tags"
         className="basic-multi-select w-full max-w-lg"
