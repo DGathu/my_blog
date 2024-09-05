@@ -29,7 +29,7 @@ const ButtonAction: FC<ButtonActionProps> = ({ id }) => {
 
   return (
     <div>
-        <Link href='/edit/1' className='btn mr-2'>
+        <Link href={`/edit/${id}`} className='btn mr-2'>
         <PenTool />   Edit
         </Link>
         <button onClick={() => deletePost()} className='btn btn-error'>

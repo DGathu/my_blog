@@ -46,3 +46,23 @@ export async function PATCH(req: Request, context: contextProps) {
         return NextResponse.json({ message: 'Could not update post' }, { status: 500 });
     }
 }
+
+
+
+export async function GET(req: Request, context: contextProps) {
+    try {
+        const { params } = context;
+        const post =  await db.post.findFirst({
+            where: {
+                id: params.postId
+            },
+            include: {
+                tag: true
+            }
+        });
+        return NextResponse.json(post, { status: 200 })
+    } catch(error) {
+        return NextResponse.json({ message: 'Could not fetch post'}, { status: 500 })
+    }
+    
+}

@@ -21,7 +21,7 @@ const CreatePage = () => {
     createPost(data);
   }
 
-  const { mutate: createPost } = useMutation({
+  const { mutate: createPost, isPending: isPendingCreate } = useMutation({
     mutationFn: (newPost: FormInputPost) => {
       return axios.post('/api/posts/create', newPost);
     },
@@ -33,6 +33,14 @@ const CreatePage = () => {
       router.refresh()
     }
   })
+
+  if (isPendingCreate) {
+    return (
+      <div className="text-center">
+        <span className="loading loading-spinner loading-lg"></span>
+      </div>
+    )
+  }
 
   return (
     <div>

@@ -12,10 +12,13 @@ import makeAnimated from 'react-select/animated';
 interface FormPostProps {
   submit: SubmitHandler<FormInputPost>;
   isEditing: boolean;
+  initialValue?: FormInputPost;
 }
 
-const FormPost: FC<FormPostProps> = ({ submit, isEditing }) => {
-  const { register, handleSubmit, setValue } = useForm<FormInputPost>();
+const FormPost: FC<FormPostProps> = ({ submit, isEditing, initialValue }) => {
+  const { register, handleSubmit, setValue } = useForm<FormInputPost>({
+    defaultValues: initialValue
+  });
 
   // fetch list tags
   const { data: dataTags, isLoading: isLoadingTags } = useQuery<Tag[]>({
