@@ -30,6 +30,7 @@ const CreatePage = () => {
     },
     onSuccess: () => {
       router.push('/')
+      router.refresh()
     }
   })
 

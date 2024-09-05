@@ -1,15 +1,46 @@
+'use client'
+
+import { useMutation } from '@tanstack/react-query'
+import axios from 'axios'
 import { PenTool, Trash2 } from 'lucide-react'
 import Link from 'next/link'
-import React from 'react'
+import { useRouter } from 'next/navigation'
+import React, { FC } from 'react'
 
-const ButtonAction = () => {
+interface ButtonActionProps {
+  id: string;
+}
+
+const ButtonAction: FC<ButtonActionProps> = ({ id }) => {
+  
+  const router = useRouter();
+  const { mutate: deletePost, isPending } = useMutation({
+    mutationFn: async () => {
+      return axios.delete(`/api/posts/${id}`)
+    },
+    onError: (error) => {
+      console.error(error);
+    },
+    onSuccess: () => {
+      router.push('/')
+      router.refresh()
+    }
+  })
+
   return (
     <div>
         <Link href='/edit/1' className='btn mr-2'>
         <PenTool />   Edit
         </Link>
-        <button className='btn btn-error'>
-        <Trash2 />   Delete
+        <button onClick={() => deletePost()} className='btn btn-error'>
+          {isPending && <span className='loading loading-spinner'></span>}
+          {isPending ? (
+            'Loading...'
+          ): (
+            <>
+              <Trash2 />   Delete
+            </>
+          )}
         </button>
     </div>
   )
