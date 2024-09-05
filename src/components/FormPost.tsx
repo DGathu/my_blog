@@ -25,7 +25,6 @@ const FormPost: FC<FormPostProps> = ({ submit, isEditing }) => {
       return response.data;
     },
   });
-  console.log(dataTags);
 
   const [tags, setTags] = useState<{ value: string; label: string }[]>([]);
 
@@ -33,7 +32,8 @@ const FormPost: FC<FormPostProps> = ({ submit, isEditing }) => {
 
   const handleTagsChange = (selectedOptions: any) => {
     setTags(selectedOptions);
-    setValue('tagId', selectedOptions.map((option: any) => option.value));
+    const tagIds = selectedOptions.map((option: any) => option.value);
+    setValue('tagId', tagIds.join(',')); // Join selected tags into a single string
   };
 
   const customStyles = {
@@ -100,20 +100,20 @@ const FormPost: FC<FormPostProps> = ({ submit, isEditing }) => {
         <span className="loading loading-ring loading-md"></span>
       ) : (
         <Select
-        {...register("tagId", { required: true })}
-        isMulti
-        name="tags"
-        className="basic-multi-select w-full max-w-lg"
-        classNamePrefix="select"
-        components={animatedComponents}
-        value={tags}
-        onChange={handleTagsChange}
-        styles={customStyles}
-        placeholder="Select Tags"
-        isClearable
-        isSearchable
-        options={options}
-      />
+          {...register("tagId", { required: true })}
+          isMulti
+          name="tags"
+          className="basic-multi-select w-full max-w-lg"
+          classNamePrefix="select"
+          components={animatedComponents}
+          value={tags}
+          onChange={handleTagsChange}
+          styles={customStyles}
+          placeholder="Select Tags"
+          isClearable
+          isSearchable
+          options={options}
+        />
       )}
 
       <button type='submit' className='btn btn-primary w-full max-w-lg'>
